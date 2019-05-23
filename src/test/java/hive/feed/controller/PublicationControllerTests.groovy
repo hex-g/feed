@@ -2,19 +2,19 @@ package hive.feed.controller
 
 import hive.feed.repository.PublicationRepository
 import org.springframework.test.web.servlet.MockMvc
-import spock.lang.Shared
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
 
 class PublicationControllerTests extends Specification{
 
+    PublicationRepository publicationRepository
 
-    @Shared
     MockMvc mockMvc
-    PublicationRepository publicationRepository = Mock()
 
     def urlBase = 'http://localhost:9700/publication'
 
     def setup(){
+        publicationRepository = Stub()
         mockMvc = MockMvcBuilders.standaloneSetup(new PublicationController(publicationRepository)).build()
     }
 
@@ -23,9 +23,7 @@ class PublicationControllerTests extends Specification{
         given:"a JSON containing a publication"
 
         when:"perform POST"
-        def response = mockMvc.perform(post("$urlBase")
-                        .andReturn()
-                        .getResponse())
+        def response = mockMvc.perform(post("$urlBase"))
 
         then:"HttpResponse as NOT ACCEPTABLE"
         response.getStatus()==406

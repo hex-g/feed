@@ -26,14 +26,11 @@ public class PublicationController {
 
   @GetMapping
   public List<Publication> find(
-      @RequestParam(required = false) final Integer publicationId,
       @RequestParam(required = false) final String type,
       @RequestParam(required = false) final Integer userId,
-      @RequestParam(required = false) final Date date,
-      @RequestParam(required = false) final String post
+      @RequestParam(required = false) final Date date
   ) {
-    final var publication = new Publication(type,userId,date,post);
-    publication.setId(publicationId);
+    final var publication = new Publication(type,userId,date,null);
 
     final var foundPublications = publicationRepository.findAll(Example.of(publication));
 
@@ -56,8 +53,23 @@ public class PublicationController {
     }
 
     final var publication = new Publication(type, userId, new Date(), post);
-    publication.setId(publicationId);
+
+    if(publicationId != null){
+      if(!publicationRepository.existsById(publicationId)){
+        throw new EntityNotFoundException();
+      }
+      publication.setId(publicationId);
+    }
 
     return publicationRepository.save(publication);
+  }
+
+  @DeleteMapping
+  public void delete(@RequestParam final Integer id){
+    if (!publicationRepository.existsById(id)) {
+      throw new EntityNotFoundException();
+    }
+
+    publicationRepository.deleteById(id);
   }
 }
