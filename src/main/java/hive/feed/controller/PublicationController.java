@@ -4,7 +4,6 @@ import hive.feed.entity.Publication;
 import hive.feed.exception.EntityNotFoundException;
 import hive.feed.exception.NullValueException;
 import hive.feed.repository.PublicationRepository;
-import hive.feed.util.ValidationText;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-import static hive.feed.util.ValidationText.*;
+import static hive.feed.util.ValidationText.isValid;
+import static hive.pandora.constant.HiveInternalHeaders.AUTHENTICATED_USER_ID;
 
 @RestController
 @RequestMapping("/publication")
@@ -26,11 +26,11 @@ public class PublicationController {
 
   @GetMapping
   public List<Publication> find(
+      @RequestHeader(name = AUTHENTICATED_USER_ID) final String userId,
       @RequestParam(required = false) final String type,
-      @RequestParam(required = false) final Integer userId,
       @RequestParam(required = false) final Date date
   ) {
-    final var publication = new Publication(type,userId,date,null);
+    final var publication = new Publication(type, Integer.parseInt(userId), date, null);
 
     final var foundPublications = publicationRepository.findAll(Example.of(publication));
 
@@ -43,19 +43,19 @@ public class PublicationController {
 
   @PostMapping
   public Publication save(
-      @RequestParam(required = false) Integer publicationId,
-      @RequestParam final String type,
-      @RequestParam final Integer userId,
-      @RequestParam final String post
+      @RequestHeader(name = AUTHENTICATED_USER_ID) final String userId,
+      @RequestParam(required = false) final Integer publicationId,
+      @RequestParam(required = false) final String type,
+      @RequestParam(required = false) final String message
   ) {
-    if(!isValid(type) || !isValid(userId.toString()) || !isValid(post)){
+    if (!isValid(type) || !isValid(userId) || Integer.parseInt(userId) == 0 || !isValid(message)) {
       throw new NullValueException();
     }
 
-    final var publication = new Publication(type, userId, new Date(), post);
+    final var publication = new Publication(type, Integer.parseInt(userId), new Date(), message);
 
-    if(publicationId != null){
-      if(!publicationRepository.existsById(publicationId)){
+    if (publicationId != null) {
+      if (!publicationRepository.existsById(publicationId)) {
         throw new EntityNotFoundException();
       }
       publication.setId(publicationId);
@@ -65,11 +65,14 @@ public class PublicationController {
   }
 
   @DeleteMapping
-  public void delete(@RequestParam final Integer id){
-    if (!publicationRepository.existsById(id)) {
+  public void delete(
+      @RequestHeader(name = AUTHENTICATED_USER_ID) final String userId,
+      @RequestParam final Integer publicationId
+  ) {
+    if (!publicationRepository.existsById(publicationId)) {
       throw new EntityNotFoundException();
     }
 
-    publicationRepository.deleteById(id);
+    publicationRepository.deleteById(publicationId);
   }
 }

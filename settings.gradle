@@ -1,6 +1,3 @@
-pluginManagement {
-	repositories {
-		gradlePluginPortal()
-	}
-}
 rootProject.name = 'feed'
+
+include 'pandora'

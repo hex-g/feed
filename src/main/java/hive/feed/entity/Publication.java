@@ -11,20 +11,15 @@ import java.util.Date;
 @DynamicUpdate
 @Check(constraints = "type in ('NOTIFICATIONS', 'STATUS')")
 public class Publication {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
   @Column(name = "type")
   private String type;
-
   @Column(name = "user_id")
   private Integer userId;
-
   @Temporal(TemporalType.TIMESTAMP)
   private Date dateTime;
-
   @Column(name = "post")
   private String post;
 
