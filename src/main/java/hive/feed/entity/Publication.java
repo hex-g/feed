@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_publication")
@@ -22,6 +23,9 @@ public class Publication {
   private Date dateTime;
   @Column(name = "post")
   private String post;
+  @OneToMany(mappedBy = "publication")
+  private List<Comment> comments;
+
 
   public Publication() {
   }
@@ -76,5 +80,13 @@ public class Publication {
 
   public void setPost(final String post) {
     this.post = post;
+  }
+
+  public List<Comment> getComments() {
+    return comments;
+  }
+
+  public void setComments(final List<Comment> comments) {
+    this.comments = comments;
   }
 }

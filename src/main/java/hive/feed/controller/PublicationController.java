@@ -45,8 +45,8 @@ public class PublicationController {
   public Publication save(
       @RequestHeader(name = AUTHENTICATED_USER_ID) final String userId,
       @RequestParam(required = false) final Integer publicationId,
-      @RequestParam(required = false) final String type,
-      @RequestParam(required = false) final String message
+      @RequestParam final String type,
+      @RequestParam final String message
   ) {
     if (!isValid(type) || !isValid(userId) || Integer.parseInt(userId) == 0 || !isValid(message)) {
       throw new NullValueException();
