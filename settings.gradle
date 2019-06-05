@@ -1,6 +1,3 @@
-pluginManagement {
-	repositories {
-		gradlePluginPortal()
-	}
-}
+
 rootProject.name = 'tamagotchi'
+include 'pandora'

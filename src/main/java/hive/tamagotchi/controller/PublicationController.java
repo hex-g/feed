@@ -13,11 +13,12 @@ import java.util.List;
 
 import static hive.tamagotchi.util.TextValidation.isValid;
 
+import static hive.pandora.constant.HiveInternalHeaders.AUTHENTICATED_USER_ID;
+
 @RestController
 @RequestMapping("/publication")
 public class PublicationController {
 
-  private final String AUTHENTICATED_USER_ID = "1";
   final private PublicationRepository publicationRepository;
 
   @Autowired
@@ -31,7 +32,7 @@ public class PublicationController {
       @RequestParam(required = false) final String type,
       @RequestParam(required = false) final Date date
   ) {
-    final var publication = new Publication(type, Integer.parseInt(userId), date, null);
+    final var publication = new Publication(type, null, date, null);
 
     final var foundPublications = publicationRepository.findAll(Example.of(publication));
 

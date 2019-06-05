@@ -5,12 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "tb_comment")
-public class Comment {
-
+@Table(name = "tb_leaf_comment")
+public class LeafComment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
@@ -18,34 +16,30 @@ public class Comment {
   @Column(name = "user_id")
   private Integer userId;
 
-  @Column(name = "comment")
-  private String comment;
+  @Column(name = "leaf_comment")
+  private String leafComment;
 
   @Temporal(TemporalType.TIMESTAMP)
   private Date dateTime;
 
   @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "publication_id")
+  @JoinColumn(name = "comment_id")
   @JsonIgnore
-  private Publication publication;
+  private Comment comment;
 
-  @OneToMany(mappedBy = "comment")
-  @JsonProperty
-  private List<LeafComment> leafComments;
-
-  public Comment() {
+  public LeafComment() {
   }
 
-  public Comment(
+  public LeafComment(
       final Integer userId,
-      final String comment,
+      final String leafComment,
       final Date dateTime,
-      final Publication publication
+      final Comment comment
   ) {
     this.userId = userId;
-    this.comment = comment;
+    this.leafComment = leafComment;
     this.dateTime = dateTime;
-    this.publication = publication;
+    this.comment = comment;
   }
 
   public Integer getId() {
@@ -64,12 +58,12 @@ public class Comment {
     this.userId = userId;
   }
 
-  public String getComment() {
-    return comment;
+  public String getLeafComment() {
+    return leafComment;
   }
 
-  public void setComment(final String comment) {
-    this.comment = comment;
+  public void setLeafComment(final String leafComment) {
+    this.leafComment = leafComment;
   }
 
   public Date getDateTime() {
@@ -80,11 +74,11 @@ public class Comment {
     this.dateTime = dateTime;
   }
 
-  public Publication getPublication() {
-    return publication;
+  public Comment getComment() {
+    return comment;
   }
 
-  public void setPublication(final Publication publication) {
-    this.publication = publication;
+  public void setComment(final Comment comment) {
+    this.comment = comment;
   }
 }

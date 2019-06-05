@@ -1,5 +1,7 @@
 package hive.tamagotchi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -24,6 +26,7 @@ public class Publication {
   @Column(name = "post")
   private String post;
   @OneToMany(mappedBy = "publication")
+  @JsonProperty
   private List<Comment> comments;
 
 
