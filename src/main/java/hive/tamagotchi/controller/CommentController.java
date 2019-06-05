@@ -1,18 +1,18 @@
-package hive.feed.controller;
+package hive.tamagotchi.controller;
 
-import hive.feed.entity.Comment;
-import hive.feed.repository.CommentRepository;
-import hive.feed.repository.PublicationRepository;
+import hive.tamagotchi.entity.Comment;
+import hive.tamagotchi.repository.CommentRepository;
+import hive.tamagotchi.repository.PublicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-import static hive.pandora.constant.HiveInternalHeaders.AUTHENTICATED_USER_ID;
 
 @RestController
 @RequestMapping("/comment")
 public class CommentController {
+  private final String AUTHENTICATED_USER_ID = "1";
   private final CommentRepository commentRepository;
   private final PublicationRepository publicationRepository;
 

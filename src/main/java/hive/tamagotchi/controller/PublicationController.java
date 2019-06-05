@@ -1,9 +1,9 @@
-package hive.feed.controller;
+package hive.tamagotchi.controller;
 
-import hive.feed.entity.Publication;
-import hive.feed.exception.EntityNotFoundException;
-import hive.feed.exception.NullValueException;
-import hive.feed.repository.PublicationRepository;
+import hive.tamagotchi.entity.Publication;
+import hive.tamagotchi.exception.EntityNotFoundException;
+import hive.tamagotchi.exception.NullValueException;
+import hive.tamagotchi.repository.PublicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-import static hive.feed.util.ValidationText.isValid;
-import static hive.pandora.constant.HiveInternalHeaders.AUTHENTICATED_USER_ID;
+import static hive.tamagotchi.util.TextValidation.isValid;
 
 @RestController
 @RequestMapping("/publication")
 public class PublicationController {
+
+  private final String AUTHENTICATED_USER_ID = "1";
   final private PublicationRepository publicationRepository;
 
   @Autowired

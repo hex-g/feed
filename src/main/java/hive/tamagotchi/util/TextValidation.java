@@ -1,6 +1,6 @@
-package hive.feed.util;
+package hive.tamagotchi.util;
 
-public final class ValidationText {
+public final class TextValidation {
   public static boolean isValid(final String text) {
     try {
       return !text.isBlank();

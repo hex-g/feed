@@ -1,3 +1,6 @@
-rootProject.name = 'feed'
-
-include 'pandora'
+pluginManagement {
+	repositories {
+		gradlePluginPortal()
+	}
+}
+rootProject.name = 'tamagotchi'

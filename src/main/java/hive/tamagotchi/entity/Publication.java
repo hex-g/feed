@@ -1,4 +1,4 @@
-package hive.feed.entity;
+package hive.tamagotchi.entity;
 
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.DynamicUpdate;

@@ -1,4 +1,4 @@
-package hive.feed.entity;
+package hive.tamagotchi.entity;
 
 import javax.persistence.*;
 import java.util.Date;
